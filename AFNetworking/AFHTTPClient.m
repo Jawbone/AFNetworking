@@ -56,7 +56,10 @@ static NSString * AFBase64EncodedStringFromString(NSString *string) {
     NSUInteger length = [data length];
     NSMutableData *mutableData = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-qual"
     uint8_t *input = (uint8_t *)[data bytes];
+#pragma clang diagnostic pop
     uint8_t *output = (uint8_t *)[mutableData mutableBytes];
 
     for (NSUInteger i = 0; i < length; i += 3) {
