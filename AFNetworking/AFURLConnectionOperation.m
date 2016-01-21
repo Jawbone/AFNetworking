@@ -232,8 +232,10 @@ static BOOL AFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
             NSParameterAssert(allowedCertificate);
             
             SecCertificateRef allowedCertificates[] = {allowedCertificate};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-qual"
             CFArrayRef certificates = CFArrayCreate(NULL, (const void **)allowedCertificates, 1, NULL);
-            
+#pragma clang diagnostic pop
             SecPolicyRef policy = SecPolicyCreateBasicX509();
             SecTrustRef allowedTrust = NULL;
             OSStatus status = SecTrustCreateWithCertificates(certificates, policy, &allowedTrust);
@@ -603,8 +605,11 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
                 [trustChain addObject:(__bridge_transfer NSData *)SecCertificateCopyData(certificate)];
             } else if (self.SSLPinningMode == AFSSLPinningModePublicKey) {
                 SecCertificateRef someCertificates[] = {certificate};
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-qual"
                 CFArrayRef certificates = CFArrayCreate(NULL, (const void **)someCertificates, 1, NULL);
-                
+#pragma clang diagnostic pop
+
                 SecTrustRef trust = NULL;
                 
                 OSStatus status = SecTrustCreateWithCertificates(certificates, policy, &trust);
@@ -733,7 +738,10 @@ didReceiveResponse:(NSURLResponse *)response
     while (YES) {
         NSUInteger totalNumberOfBytesWritten = 0;
         if ([self.outputStream hasSpaceAvailable]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wcast-qual"
             const uint8_t *dataBuffer = (uint8_t *)[data bytes];
+#pragma clang diagnostic pop
 
             NSInteger numberOfBytesWritten = 0;
             while (totalNumberOfBytesWritten < length) {
