@@ -145,8 +145,8 @@ static void AFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klass, SEL 
             NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
             [userInfo setValue:self.responseString forKey:NSLocalizedRecoverySuggestionErrorKey];
             [userInfo setValue:[self.request URL] forKey:NSURLErrorFailingURLErrorKey];
-            [userInfo setValue:self.request forKey:AFNetworkingOperationFailingURLRequestErrorKey];
-            [userInfo setValue:self.response forKey:AFNetworkingOperationFailingURLResponseErrorKey];
+            [userInfo setValue:self.request forKey:XFNetworkingOperationFailingURLRequestErrorKey];
+            [userInfo setValue:self.response forKey:XFNetworkingOperationFailingURLResponseErrorKey];
 
             if (![self hasAcceptableStatusCode]) {
                 NSInteger statusCode = ([self.response isKindOfClass:[NSHTTPURLResponse class]]) ? [self.response statusCode] : 200;

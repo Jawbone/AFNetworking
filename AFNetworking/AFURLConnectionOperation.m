@@ -49,8 +49,8 @@ typedef id AFBackgroundTaskIdentifier;
 static NSString * const kAFNetworkingLockName = @"com.alamofire.networking.operation.lock";
 
 NSString * const AFNetworkingErrorDomain = @"AFNetworkingErrorDomain";
-NSString * const AFNetworkingOperationFailingURLRequestErrorKey = @"AFNetworkingOperationFailingURLRequestErrorKey";
-NSString * const AFNetworkingOperationFailingURLResponseErrorKey = @"AFNetworkingOperationFailingURLResponseErrorKey";
+NSString * const XFNetworkingOperationFailingURLRequestErrorKey = @"XFNetworkingOperationFailingURLRequestErrorKey";
+NSString * const XFNetworkingOperationFailingURLResponseErrorKey = @"XFNetworkingOperationFailingURLResponseErrorKey";
 
 NSString * const AFNetworkingOperationDidStartNotification = @"com.alamofire.networking.operation.start";
 NSString * const AFNetworkingOperationDidFinishNotification = @"com.alamofire.networking.operation.finish";

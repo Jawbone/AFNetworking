@@ -40,8 +40,8 @@
 #endif
 
 #ifdef _SYSTEMCONFIGURATION_H
-NSString * const AFNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
-NSString * const AFNetworkingReachabilityNotificationStatusItem = @"AFNetworkingReachabilityNotificationStatusItem";
+NSString * const XFNetworkingReachabilityDidChangeNotification = @"com.alamofire.networking.reachability.change";
+NSString * const XFNetworkingReachabilityNotificationStatusItem = @"XFNetworkingReachabilityNotificationStatusItem";
 
 typedef SCNetworkReachabilityRef AFNetworkReachabilityRef;
 typedef void (^AFNetworkReachabilityStatusBlock)(AFNetworkReachabilityStatus status);
@@ -97,7 +97,7 @@ static NSString * AFPercentEscapedQueryStringValueFromStringWithEncoding(NSStrin
 
 #pragma mark -
 
-@interface AFQueryStringPair : NSObject
+@interface XFQueryStringPair : NSObject
 @property (readwrite, nonatomic, strong) id field;
 @property (readwrite, nonatomic, strong) id value;
 
@@ -106,7 +106,7 @@ static NSString * AFPercentEscapedQueryStringValueFromStringWithEncoding(NSStrin
 - (NSString *)URLEncodedStringValueWithEncoding:(NSStringEncoding)stringEncoding;
 @end
 
-@implementation AFQueryStringPair
+@implementation XFQueryStringPair
 @synthesize field = _field;
 @synthesize value = _value;
 
@@ -134,23 +134,23 @@ static NSString * AFPercentEscapedQueryStringValueFromStringWithEncoding(NSStrin
 
 #pragma mark -
 
-extern NSArray * AFQueryStringPairsFromDictionary(NSDictionary *dictionary);
-extern NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value);
+extern NSArray * XFQueryStringPairsFromDictionary(NSDictionary *dictionary);
+extern NSArray * XFQueryStringPairsFromKeyAndValue(NSString *key, id value);
 
 NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *parameters, NSStringEncoding stringEncoding) {
     NSMutableArray *mutablePairs = [NSMutableArray array];
-    for (AFQueryStringPair *pair in AFQueryStringPairsFromDictionary(parameters)) {
+    for (XFQueryStringPair *pair in XFQueryStringPairsFromDictionary(parameters)) {
         [mutablePairs addObject:[pair URLEncodedStringValueWithEncoding:stringEncoding]];
     }
 
     return [mutablePairs componentsJoinedByString:@"&"];
 }
 
-NSArray * AFQueryStringPairsFromDictionary(NSDictionary *dictionary) {
-    return AFQueryStringPairsFromKeyAndValue(nil, dictionary);
+NSArray * XFQueryStringPairsFromDictionary(NSDictionary *dictionary) {
+    return XFQueryStringPairsFromKeyAndValue(nil, dictionary);
 }
 
-NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
+NSArray * XFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     NSMutableArray *mutableQueryStringComponents = [NSMutableArray array];
 
     if ([value isKindOfClass:[NSDictionary class]]) {
@@ -160,27 +160,27 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
         for (id nestedKey in [dictionary.allKeys sortedArrayUsingDescriptors:@[ sortDescriptor ]]) {
             id nestedValue = [dictionary objectForKey:nestedKey];
             if (nestedValue) {
-                [mutableQueryStringComponents addObjectsFromArray:AFQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@"%@[%@]", key, nestedKey] : nestedKey), nestedValue)];
+                [mutableQueryStringComponents addObjectsFromArray:XFQueryStringPairsFromKeyAndValue((key ? [NSString stringWithFormat:@"%@[%@]", key, nestedKey] : nestedKey), nestedValue)];
             }
         }
     } else if ([value isKindOfClass:[NSArray class]]) {
         NSArray *array = value;
         for (id nestedValue in array) {
-            [mutableQueryStringComponents addObjectsFromArray:AFQueryStringPairsFromKeyAndValue([NSString stringWithFormat:@"%@[]", key], nestedValue)];
+            [mutableQueryStringComponents addObjectsFromArray:XFQueryStringPairsFromKeyAndValue([NSString stringWithFormat:@"%@[]", key], nestedValue)];
         }
     } else if ([value isKindOfClass:[NSSet class]]) {
         NSSet *set = value;
         for (id obj in set) {
-            [mutableQueryStringComponents addObjectsFromArray:AFQueryStringPairsFromKeyAndValue(key, obj)];
+            [mutableQueryStringComponents addObjectsFromArray:XFQueryStringPairsFromKeyAndValue(key, obj)];
         }
     } else {
-        [mutableQueryStringComponents addObject:[[AFQueryStringPair alloc] initWithField:key value:value]];
+        [mutableQueryStringComponents addObject:[[XFQueryStringPair alloc] initWithField:key value:value]];
     }
 
     return mutableQueryStringComponents;
 }
 
-@interface AFStreamingMultipartFormData : NSObject <AFMultipartFormData>
+@interface XFStreamingMultipartFormData : NSObject <AFMultipartFormData>
 - (id)initWithURLRequest:(NSMutableURLRequest *)urlRequest
           stringEncoding:(NSStringEncoding)encoding;
 
@@ -359,7 +359,7 @@ static void AFNetworkReachabilityCallback(SCNetworkReachabilityRef __unused targ
 
     dispatch_async(dispatch_get_main_queue(), ^{
         NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-        [notificationCenter postNotificationName:AFNetworkingReachabilityDidChangeNotification object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:status] forKey:AFNetworkingReachabilityNotificationStatusItem]];
+        [notificationCenter postNotificationName:XFNetworkingReachabilityDidChangeNotification object:nil userInfo:[NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:status] forKey:XFNetworkingReachabilityNotificationStatusItem]];
     });
 }
 
@@ -531,10 +531,10 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
 
     NSMutableURLRequest *request = [self requestWithMethod:method path:path parameters:nil];
 
-    __block AFStreamingMultipartFormData *formData = [[AFStreamingMultipartFormData alloc] initWithURLRequest:request stringEncoding:self.stringEncoding];
+    __block XFStreamingMultipartFormData *formData = [[XFStreamingMultipartFormData alloc] initWithURLRequest:request stringEncoding:self.stringEncoding];
 
     if (parameters) {
-        for (AFQueryStringPair *pair in AFQueryStringPairsFromDictionary(parameters)) {
+        for (XFQueryStringPair *pair in XFQueryStringPairsFromDictionary(parameters)) {
             NSData *data = nil;
             if ([pair.value isKindOfClass:[NSData class]]) {
                 data = pair.value;
@@ -803,10 +803,10 @@ static inline NSString * AFContentTypeForPathExtension(NSString *extension) {
 #endif
 }
 
-NSUInteger const kAFUploadStream3GSuggestedPacketSize = 1024 * 16;
-NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
+NSUInteger const kXFUploadStream3GSuggestedPacketSize = 1024 * 16;
+NSTimeInterval const kXFUploadStream3GSuggestedDelay = 0.2;
 
-@interface AFHTTPBodyPart : NSObject
+@interface XFHTTPBodyPart : NSObject
 @property (nonatomic, assign) NSStringEncoding stringEncoding;
 @property (nonatomic, strong) NSDictionary *headers;
 @property (nonatomic, strong) id body;
@@ -824,7 +824,7 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
         maxLength:(NSUInteger)length;
 @end
 
-@interface AFMultipartBodyStream : NSInputStream <NSStreamDelegate>
+@interface XFMultipartBodyStream : NSInputStream <NSStreamDelegate>
 @property (nonatomic, assign) NSUInteger numberOfBytesInPacket;
 @property (nonatomic, assign) NSTimeInterval delay;
 @property (nonatomic, strong) NSInputStream *inputStream;
@@ -833,19 +833,19 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
 
 - (id)initWithStringEncoding:(NSStringEncoding)encoding;
 - (void)setInitialAndFinalBoundaries;
-- (void)appendHTTPBodyPart:(AFHTTPBodyPart *)bodyPart;
+- (void)appendHTTPBodyPart:(XFHTTPBodyPart *)bodyPart;
 @end
 
 #pragma mark -
 
-@interface AFStreamingMultipartFormData ()
+@interface XFStreamingMultipartFormData ()
 @property (readwrite, nonatomic, copy) NSMutableURLRequest *request;
 @property (nonatomic, copy) NSString *boundary;
-@property (readwrite, nonatomic, strong) AFMultipartBodyStream *bodyStream;
+@property (readwrite, nonatomic, strong) XFMultipartBodyStream *bodyStream;
 @property (readwrite, nonatomic, assign) NSStringEncoding stringEncoding;
 @end
 
-@implementation AFStreamingMultipartFormData
+@implementation XFStreamingMultipartFormData
 @synthesize request = _request;
 @synthesize bodyStream = _bodyStream;
 @synthesize stringEncoding = _stringEncoding;
@@ -861,7 +861,7 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
     self.request = urlRequest;
     self.stringEncoding = encoding;
     self.boundary = AFCreateMultipartFormBoundary();
-    self.bodyStream = [[AFMultipartBodyStream alloc] initWithStringEncoding:encoding];
+    self.bodyStream = [[XFMultipartBodyStream alloc] initWithStringEncoding:encoding];
 
     return self;
 }
@@ -910,7 +910,7 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
     [mutableHeaders setValue:[NSString stringWithFormat:@"form-data; name=\"%@\"; filename=\"%@\"", name, fileName] forKey:@"Content-Disposition"];
     [mutableHeaders setValue:mimeType forKey:@"Content-Type"];
 
-    AFHTTPBodyPart *bodyPart = [[AFHTTPBodyPart alloc] init];
+    XFHTTPBodyPart *bodyPart = [[XFHTTPBodyPart alloc] init];
     bodyPart.stringEncoding = self.stringEncoding;
     bodyPart.headers = mutableHeaders;
     bodyPart.boundary = self.boundary;
@@ -940,7 +940,7 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
     [mutableHeaders setValue:mimeType forKey:@"Content-Type"];
 
 
-    AFHTTPBodyPart *bodyPart = [[AFHTTPBodyPart alloc] init];
+    XFHTTPBodyPart *bodyPart = [[XFHTTPBodyPart alloc] init];
     bodyPart.stringEncoding = self.stringEncoding;
     bodyPart.headers = mutableHeaders;
     bodyPart.boundary = self.boundary;
@@ -983,7 +983,7 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
 {
     NSParameterAssert(body);
 
-    AFHTTPBodyPart *bodyPart = [[AFHTTPBodyPart alloc] init];
+    XFHTTPBodyPart *bodyPart = [[XFHTTPBodyPart alloc] init];
     bodyPart.stringEncoding = self.stringEncoding;
     bodyPart.headers = headers;
     bodyPart.boundary = self.boundary;
@@ -1019,18 +1019,18 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
 
 #pragma mark -
 
-@interface AFMultipartBodyStream () <NSCopying>
+@interface XFMultipartBodyStream () <NSCopying>
 @property (nonatomic, assign) NSStreamStatus streamStatus;
 @property (nonatomic, strong) NSError *streamError;
 @property (nonatomic, assign) NSStringEncoding stringEncoding;
 @property (nonatomic, strong) NSMutableArray *HTTPBodyParts;
 @property (nonatomic, strong) NSEnumerator *HTTPBodyPartEnumerator;
-@property (nonatomic, strong) AFHTTPBodyPart *currentHTTPBodyPart;
+@property (nonatomic, strong) XFHTTPBodyPart *currentHTTPBodyPart;
 @property (nonatomic, strong) NSOutputStream *outputStream;
 @property (nonatomic, strong) NSMutableData *buffer;
 @end
 
-@implementation AFMultipartBodyStream
+@implementation XFMultipartBodyStream
 @synthesize streamStatus = _streamStatus;
 @synthesize streamError = _streamError;
 @synthesize stringEncoding = _stringEncoding;
@@ -1058,7 +1058,7 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
 
 - (void)setInitialAndFinalBoundaries {
     if ([self.HTTPBodyParts count] > 0) {
-        for (AFHTTPBodyPart *bodyPart in self.HTTPBodyParts) {
+        for (XFHTTPBodyPart *bodyPart in self.HTTPBodyParts) {
             bodyPart.hasInitialBoundary = NO;
             bodyPart.hasFinalBoundary = NO;
         }
@@ -1068,7 +1068,7 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
     }
 }
 
-- (void)appendHTTPBodyPart:(AFHTTPBodyPart *)bodyPart {
+- (void)appendHTTPBodyPart:(XFHTTPBodyPart *)bodyPart {
     [self.HTTPBodyParts addObject:bodyPart];
 }
 
@@ -1158,7 +1158,7 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
 
 - (unsigned long long)contentLength {
     unsigned long long length = 0;
-    for (AFHTTPBodyPart *bodyPart in self.HTTPBodyParts) {
+    for (XFHTTPBodyPart *bodyPart in self.HTTPBodyParts) {
         length += [bodyPart contentLength];
     }
 
@@ -1184,9 +1184,9 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
 #pragma mark - NSCopying
 
 -(id)copyWithZone:(NSZone *)zone {
-    AFMultipartBodyStream *bodyStreamCopy = [[[self class] allocWithZone:zone] initWithStringEncoding:self.stringEncoding];
+    XFMultipartBodyStream *bodyStreamCopy = [[[self class] allocWithZone:zone] initWithStringEncoding:self.stringEncoding];
 
-    for (AFHTTPBodyPart *bodyPart in self.HTTPBodyParts) {
+    for (XFHTTPBodyPart *bodyPart in self.HTTPBodyParts) {
         [bodyStreamCopy appendHTTPBodyPart:[bodyPart copy]];
     }
 
@@ -1204,10 +1204,10 @@ typedef enum {
     AFHeaderPhase                = 2,
     AFBodyPhase                  = 3,
     AFFinalBoundaryPhase         = 4,
-} AFHTTPBodyPartReadPhase;
+} XFHTTPBodyPartReadPhase;
 
-@interface AFHTTPBodyPart () <NSCopying> {
-    AFHTTPBodyPartReadPhase _phase;
+@interface XFHTTPBodyPart () <NSCopying> {
+    XFHTTPBodyPartReadPhase _phase;
     NSInputStream *_inputStream;
     unsigned long long _phaseReadOffset;
 }
@@ -1218,7 +1218,7 @@ typedef enum {
             maxLength:(NSUInteger)length;
 @end
 
-@implementation AFHTTPBodyPart
+@implementation XFHTTPBodyPart
 @synthesize stringEncoding = _stringEncoding;
 @synthesize headers = _headers;
 @synthesize body = _body;
@@ -1402,7 +1402,7 @@ typedef enum {
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
-    AFHTTPBodyPart *bodyPart = [[[self class] allocWithZone:zone] init];
+    XFHTTPBodyPart *bodyPart = [[[self class] allocWithZone:zone] init];
 
     bodyPart.stringEncoding = self.stringEncoding;
     bodyPart.headers = self.headers;

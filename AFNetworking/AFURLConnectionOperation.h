@@ -329,15 +329,15 @@ NSCoding, NSCopying>
 
  These keys may exist in the user info dictionary, in addition to those defined for NSError.
 
- - `NSString * const AFNetworkingOperationFailingURLRequestErrorKey`
- - `NSString * const AFNetworkingOperationFailingURLResponseErrorKey`
+ - `NSString * const XFNetworkingOperationFailingURLRequestErrorKey`
+ - `NSString * const XFNetworkingOperationFailingURLResponseErrorKey`
 
  ### Constants
 
- `AFNetworkingOperationFailingURLRequestErrorKey`
+ `XFNetworkingOperationFailingURLRequestErrorKey`
  The corresponding value is an `NSURLRequest` containing the request of the operation associated with an error. This key is only present in the `AFNetworkingErrorDomain`.
 
- `AFNetworkingOperationFailingURLResponseErrorKey`
+ `XFNetworkingOperationFailingURLResponseErrorKey`
  The corresponding value is an `NSURLResponse` containing the response of the operation associated with an error. This key is only present in the `AFNetworkingErrorDomain`.
 
  ## Error Domains
@@ -352,8 +352,8 @@ NSCoding, NSCopying>
  AFNetworking errors. Error codes for `AFNetworkingErrorDomain` correspond to codes in `NSURLErrorDomain`.
  */
 extern NSString * const AFNetworkingErrorDomain;
-extern NSString * const AFNetworkingOperationFailingURLRequestErrorKey;
-extern NSString * const AFNetworkingOperationFailingURLResponseErrorKey;
+extern NSString * const XFNetworkingOperationFailingURLRequestErrorKey;
+extern NSString * const XFNetworkingOperationFailingURLResponseErrorKey;
 
 ///--------------------
 /// @name Notifications

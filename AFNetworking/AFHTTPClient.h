@@ -480,8 +480,8 @@ typedef enum {
 
  Strings that are used as keys in a `userInfo` dictionary in a network reachability status change notification.
 
- `AFNetworkingReachabilityNotificationStatusItem`
- A key in the userInfo dictionary in a `AFNetworkingReachabilityDidChangeNotification` notification.
+ `XFNetworkingReachabilityNotificationStatusItem`
+ A key in the userInfo dictionary in a `XFNetworkingReachabilityDidChangeNotification` notification.
  The corresponding value is an `NSNumber` object representing the `AFNetworkReachabilityStatus` value for the current reachability status.
 
  ## Parameter Encoding
@@ -528,19 +528,19 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
 
 /**
  Posted when network reachability changes.
- This notification assigns no notification object. The `userInfo` dictionary contains an `NSNumber` object under the `AFNetworkingReachabilityNotificationStatusItem` key, representing the `AFNetworkReachabilityStatus` value for the current network reachability.
+ This notification assigns no notification object. The `userInfo` dictionary contains an `NSNumber` object under the `XFNetworkingReachabilityNotificationStatusItem` key, representing the `AFNetworkReachabilityStatus` value for the current network reachability.
 
  @warning In order for network reachability to be monitored, include the `SystemConfiguration` framework in the active target's "Link Binary With Library" build phase, and add `#import <SystemConfiguration/SystemConfiguration.h>` to the header prefix of the project (`Prefix.pch`).
  */
 #ifdef _SYSTEMCONFIGURATION_H
-extern NSString * const AFNetworkingReachabilityDidChangeNotification;
-extern NSString * const AFNetworkingReachabilityNotificationStatusItem;
+extern NSString * const XFNetworkingReachabilityDidChangeNotification;
+extern NSString * const XFNetworkingReachabilityNotificationStatusItem;
 #endif
 
 #pragma mark -
 
-extern NSUInteger const kAFUploadStream3GSuggestedPacketSize;
-extern NSTimeInterval const kAFUploadStream3GSuggestedDelay;
+extern NSUInteger const kXFUploadStream3GSuggestedPacketSize;
+extern NSTimeInterval const kXFUploadStream3GSuggestedDelay;
 
 /**
  The `AFMultipartFormData` protocol defines the methods supported by the parameter in the block argument of `AFHTTPClient -multipartFormRequestWithMethod:path:parameters:constructingBodyWithBlock:`.
@@ -630,7 +630,7 @@ extern NSTimeInterval const kAFUploadStream3GSuggestedDelay;
 /**
  Throttles request bandwidth by limiting the packet size and adding a delay for each chunk read from the upload stream.
 
- When uploading over a 3G or EDGE connection, requests may fail with "request body stream exhausted". Setting a maximum packet size and delay according to the recommended values (`kAFUploadStream3GSuggestedPacketSize` and `kAFUploadStream3GSuggestedDelay`) lowers the risk of the input stream exceeding its allocated bandwidth. Unfortunately, as of iOS 6, there is no definite way to distinguish between a 3G, EDGE, or LTE connection. As such, it is not recommended that you throttle bandwidth based solely on network reachability. Instead, you should consider checking for the "request body stream exhausted" in a failure block, and then retrying the request with throttled bandwidth.
+ When uploading over a 3G or EDGE connection, requests may fail with "request body stream exhausted". Setting a maximum packet size and delay according to the recommended values (`kXFUploadStream3GSuggestedPacketSize` and `kXFUploadStream3GSuggestedDelay`) lowers the risk of the input stream exceeding its allocated bandwidth. Unfortunately, as of iOS 6, there is no definite way to distinguish between a 3G, EDGE, or LTE connection. As such, it is not recommended that you throttle bandwidth based solely on network reachability. Instead, you should consider checking for the "request body stream exhausted" in a failure block, and then retrying the request with throttled bandwidth.
 
  @param numberOfBytes Maximum packet size, in number of bytes. The default packet size for an input stream is 32kb.
  @param delay Duration of delay each time a packet is read. By default, no delay is set.
