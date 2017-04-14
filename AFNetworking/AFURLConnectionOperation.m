@@ -601,9 +601,9 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
         for (CFIndex i = 0; i < certificateCount; i++) {
             SecCertificateRef certificate = SecTrustGetCertificateAtIndex(serverTrust, i);
             
-            if (self.SSLPinningMode == AFSSLPinningModeCertificate) {
+            if (self.SSLPinningMode == XFSSLPinningModeCertificate) {
                 [trustChain addObject:(__bridge_transfer NSData *)SecCertificateCopyData(certificate)];
-            } else if (self.SSLPinningMode == AFSSLPinningModePublicKey) {
+            } else if (self.SSLPinningMode == XFSSLPinningModePublicKey) {
                 SecCertificateRef someCertificates[] = {certificate};
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wcast-qual"
@@ -632,9 +632,9 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
         CFRelease(policy);
         
         switch (self.SSLPinningMode) {
-            case AFSSLPinningModePublicKey: {
+            case XFSSLPinningModePublicKey: {
                 NSArray *pinnedPublicKeys = [self.class pinnedPublicKeys];
-                NSAssert([pinnedPublicKeys count] > 0, @"AFSSLPinningModePublicKey needs at least one key file in the application bundle");
+                NSAssert([pinnedPublicKeys count] > 0, @"XFSSLPinningModePublicKey needs at least one key file in the application bundle");
 
                 for (id publicKey in trustChain) {
                     for (id pinnedPublicKey in pinnedPublicKeys) {
@@ -650,8 +650,8 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
                 [[challenge sender] cancelAuthenticationChallenge:challenge];
                 break;
             }
-            case AFSSLPinningModeCertificate: {
-                NSAssert([[self.class pinnedCertificates] count] > 0, @"AFSSLPinningModeCertificate needs at least one certificate file in the application bundle");
+            case XFSSLPinningModeCertificate: {
+                NSAssert([[self.class pinnedCertificates] count] > 0, @"XFSSLPinningModeCertificate needs at least one certificate file in the application bundle");
                 for (id serverCertificateData in trustChain) {
                     if ([[self.class pinnedCertificates] containsObject:serverCertificateData]) {
                         NSURLCredential *credential = [NSURLCredential credentialForTrust:serverTrust];
@@ -664,7 +664,7 @@ willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challe
                 [[challenge sender] cancelAuthenticationChallenge:challenge];
                 break;
             }
-            case AFSSLPinningModeNone: {
+            case XFSSLPinningModeNone: {
                 if (self.allowsInvalidSSLCertificate){
                     NSURLCredential *credential = [NSURLCredential credentialForTrust:serverTrust];
                     [[challenge sender] useCredential:credential forAuthenticationChallenge:challenge];

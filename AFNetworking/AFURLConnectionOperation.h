@@ -83,9 +83,9 @@
  */
 
 typedef enum {
-    AFSSLPinningModeNone,
-    AFSSLPinningModePublicKey,
-    AFSSLPinningModeCertificate,
+    XFSSLPinningModeNone,
+    XFSSLPinningModePublicKey,
+    XFSSLPinningModeCertificate,
 } AFURLConnectionOperationSSLPinningMode;
 
 @interface AFURLConnectionOperation : NSOperation <NSURLConnectionDelegate,
@@ -170,7 +170,7 @@ NSCoding, NSCopying>
 @property (nonatomic, strong) NSURLCredential *credential;
 
 /**
- The pinning mode which will be used for SSL connections. `AFSSLPinningModePublicKey` by default.
+ The pinning mode which will be used for SSL connections. `XFSSLPinningModePublicKey` by default.
  
  SSL Pinning requires that the Security framework is linked with the binary. See the "SSL Pinning" section in the `AFURLConnectionOperation`" header for more information.
  */
@@ -311,18 +311,18 @@ NSCoding, NSCopying>
  The following constants are provided by `AFURLConnectionOperation` as possible SSL Pinning options.
 
  enum {
- AFSSLPinningModeNone,
- AFSSLPinningModePublicKey,
- AFSSLPinningModeCertificate,
+ XFSSLPinningModeNone,
+ XFSSLPinningModePublicKey,
+ XFSSLPinningModeCertificate,
  }
  
- `AFSSLPinningModeNone`
+ `XFSSLPinningModeNone`
  Do not pin SSL connections
 
- `AFSSLPinningModePublicKey`
+ `XFSSLPinningModePublicKey`
  Pin SSL connections to certificate public key (SPKI).
 
- `AFSSLPinningModeCertificate`
+ `XFSSLPinningModeCertificate`
  Pin SSL connections to exact certificate. This may cause problems when your certificate expires and needs re-issuance.
 
  ## User info dictionary keys

@@ -75,11 +75,11 @@
 
 #ifdef _SYSTEMCONFIGURATION_H
 typedef enum {
-    AFNetworkReachabilityStatusUnknown          = -1,
-    AFNetworkReachabilityStatusNotReachable     = 0,
-    AFNetworkReachabilityStatusReachableViaWWAN = 1,
-    AFNetworkReachabilityStatusReachableViaWiFi = 2,
-} AFNetworkReachabilityStatus;
+    XFNetworkReachabilityStatusUnknown          = -1,
+    XFNetworkReachabilityStatusNotReachable     = 0,
+    XFNetworkReachabilityStatusReachableViaWWAN = 1,
+    XFNetworkReachabilityStatusReachableViaWiFi = 2,
+} XFNetworkReachabilityStatus;
 #else
 #pragma message("SystemConfiguration framework not found in project, or not included in precompiled header. Network reachability functionality will not be available.")
 #endif
@@ -135,7 +135,7 @@ typedef enum {
  @warning This property requires the `SystemConfiguration` framework. Add it in the active target's "Link Binary With Library" build phase, and add `#import <SystemConfiguration/SystemConfiguration.h>` to the header prefix of the project (`Prefix.pch`).
  */
 #ifdef _SYSTEMCONFIGURATION_H
-@property (readonly, nonatomic, assign) AFNetworkReachabilityStatus networkReachabilityStatus;
+@property (readonly, nonatomic, assign) XFNetworkReachabilityStatus networkReachabilityStatus;
 #endif
 
 /**
@@ -186,7 +186,7 @@ typedef enum {
  @warning This method requires the `SystemConfiguration` framework. Add it in the active target's "Link Binary With Library" build phase, and add `#import <SystemConfiguration/SystemConfiguration.h>` to the header prefix of the project (`Prefix.pch`).
  */
 #ifdef _SYSTEMCONFIGURATION_H
-- (void)setReachabilityStatusChangeBlock:(void (^)(AFNetworkReachabilityStatus status))block;
+- (void)setReachabilityStatusChangeBlock:(void (^)(XFNetworkReachabilityStatus status))block;
 #endif
 
 ///-------------------------------
@@ -458,22 +458,22 @@ typedef enum {
  The following constants are provided by `AFHTTPClient` as possible network reachability statuses.
 
  enum {
- AFNetworkReachabilityStatusUnknown,
- AFNetworkReachabilityStatusNotReachable,
- AFNetworkReachabilityStatusReachableViaWWAN,
- AFNetworkReachabilityStatusReachableViaWiFi,
+ XFNetworkReachabilityStatusUnknown,
+ XFNetworkReachabilityStatusNotReachable,
+ XFNetworkReachabilityStatusReachableViaWWAN,
+ XFNetworkReachabilityStatusReachableViaWiFi,
  }
 
- `AFNetworkReachabilityStatusUnknown`
+ `XFNetworkReachabilityStatusUnknown`
  The `baseURL` host reachability is not known.
 
- `AFNetworkReachabilityStatusNotReachable`
+ `XFNetworkReachabilityStatusNotReachable`
  The `baseURL` host cannot be reached.
 
- `AFNetworkReachabilityStatusReachableViaWWAN`
+ `XFNetworkReachabilityStatusReachableViaWWAN`
  The `baseURL` host can be reached via a cellular connection, such as EDGE or GPRS.
 
- `AFNetworkReachabilityStatusReachableViaWiFi`
+ `XFNetworkReachabilityStatusReachableViaWiFi`
  The `baseURL` host can be reached via a Wi-Fi connection.
 
  ### Keys for Notification UserInfo Dictionary
@@ -482,7 +482,7 @@ typedef enum {
 
  `XFNetworkingReachabilityNotificationStatusItem`
  A key in the userInfo dictionary in a `XFNetworkingReachabilityDidChangeNotification` notification.
- The corresponding value is an `NSNumber` object representing the `AFNetworkReachabilityStatus` value for the current reachability status.
+ The corresponding value is an `NSNumber` object representing the `XFNetworkReachabilityStatus` value for the current reachability status.
 
  ## Parameter Encoding
 
@@ -528,7 +528,7 @@ extern NSString * AFQueryStringFromParametersWithEncoding(NSDictionary *paramete
 
 /**
  Posted when network reachability changes.
- This notification assigns no notification object. The `userInfo` dictionary contains an `NSNumber` object under the `XFNetworkingReachabilityNotificationStatusItem` key, representing the `AFNetworkReachabilityStatus` value for the current network reachability.
+ This notification assigns no notification object. The `userInfo` dictionary contains an `NSNumber` object under the `XFNetworkingReachabilityNotificationStatusItem` key, representing the `XFNetworkReachabilityStatus` value for the current network reachability.
 
  @warning In order for network reachability to be monitored, include the `SystemConfiguration` framework in the active target's "Link Binary With Library" build phase, and add `#import <SystemConfiguration/SystemConfiguration.h>` to the header prefix of the project (`Prefix.pch`).
  */
